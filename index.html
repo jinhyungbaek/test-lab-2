@@ -1,0 +1,244 @@
+﻿<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>방산 협력사 입고·품질 운영 대시보드</title>
+<style>
+:root{--ink:#142338;--muted:#506176;--line:#dce4ed;--navy:#142941;--blue:#12618a;--blue-bg:#e8f2f7;--amber:#aa541d;--amber-bg:#fff2e6;--red:#9b3b49;--red-bg:#faedf0;--surface:#f2f5f8;--white:#fff;--green:#256656;--green-bg:#eaf5f1}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);background:#fff;font:14px/1.56 "Pretendard","Noto Sans CJK KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;font-variant-numeric:tabular-nums}
+a{color:inherit}button,select,input{font:inherit}button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid #1387b4;outline-offset:3px}
+header{background:var(--navy);color:#fff;border-top:4px solid #46a8c3}.top,.wrap{max-width:1480px;margin:auto;padding:0 32px}.top{display:flex;min-height:60px;align-items:center;gap:27px}.brand{font-weight:740;white-space:nowrap;font-size:15px}.brand::before{content:"";display:inline-block;width:10px;height:10px;margin-right:10px;background:#70c7dd;border-radius:2px}.top nav{display:flex;gap:22px;color:#d1ddea;font-size:13px}.top nav a{text-decoration:none}.top nav a:hover{text-decoration:underline}
+.wrap{padding-bottom:32px}.mast{display:flex;justify-content:space-between;gap:28px;align-items:end;padding:27px 0 18px}.mast h1{font-size:clamp(24px,3.1vw,35px);margin:0;font-weight:780;letter-spacing:-.05em;line-height:1.25}.mast p{margin:7px 0 0;color:var(--muted)}.cutoff{margin:0;min-width:190px}.cutoff div{display:flex;justify-content:space-between;gap:20px}.cutoff dt{color:var(--muted)}.cutoff dd{margin:0;font-weight:650}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.stat,.chart,.panel,.detail{border:1px solid var(--line);background:var(--white);border-radius:7px}.stat{padding:12px 15px;border-top:3px solid #3b80a2;min-width:0}.stat:nth-child(3){border-top-color:#bd7238}.stat:nth-child(4){border-top-color:#ae5460}.stat:nth-child(5){border-top-color:#61749c}.stat h2{font-size:13px;margin:0;color:var(--muted);font-weight:650}.metric{font-size:27px;font-weight:780;letter-spacing:-.045em;display:block;line-height:1.4}.stat small{color:var(--muted);font-size:11px}
+.callout{margin:14px 0 21px;padding:12px 15px;background:#edf4f8;border:1px solid #cfe0ea;border-left:4px solid var(--blue);border-radius:4px;display:flex;gap:12px;align-items:baseline}.callout b{white-space:nowrap;color:#164862}.callout p{margin:0}.section-title{display:flex;justify-content:space-between;gap:14px;align-items:baseline;margin:0 0 9px}.section-title h2{font-size:18px;margin:0;letter-spacing:-.03em}.section-title span{color:var(--muted);font-size:12px}
+.charts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.chart{padding:13px 15px;min-width:0}.chart h3{font-size:14px;margin:0 0 2px}.chart p{color:var(--muted);font-size:12px;margin:2px 0 0}.canvas{height:190px;position:relative;margin-top:7px}.chart p.numerical{color:var(--ink);margin-top:8px;font-weight:610}.chart-status{padding:9px 12px;border:1px solid #edc6a8;background:var(--amber-bg);color:#70380e;border-radius:4px}.chart-status[hidden]{display:none}
+#orders,#criteria{margin-top:22px;scroll-margin-top:12px}.workbench{display:grid;grid-template-columns:minmax(0,2.5fr) minmax(278px,1fr);gap:12px}.panel,.detail{min-width:0}.filters{display:flex;flex-wrap:wrap;align-items:end;gap:9px 12px;padding:12px 14px;border-bottom:1px solid var(--line)}.filters label{display:grid;gap:3px;font-size:11px;font-weight:650;color:var(--muted)}.filters select,.filters input,.filters button{height:32px;padding:0 8px;border:1px solid #bfcddb;border-radius:4px;color:var(--ink);background:#fff;max-width:100%}.filters input{width:132px}.filters button{cursor:pointer}.result{margin-left:auto;color:var(--muted);font-size:12px;align-self:center}
+.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;white-space:nowrap;font-size:12px}th,td{padding:8px 9px;text-align:left;border-bottom:1px solid #e6edf3}th{background:#eef4f8;color:#3e5367;font-size:11px}tr[data-current="true"]{background:#e9f4fa}tbody tr:last-child td{border-bottom:0}.order-button{border:0;background:transparent;color:#085b81;font-weight:750;padding:1px 3px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}.pill{display:inline-block;border-radius:4px;padding:1px 6px;color:var(--muted);background:#edf1f4}.late,.open{color:#8d410f;background:var(--amber-bg)}.issue{color:var(--red);background:var(--red-bg)}.closed{color:var(--green);background:var(--green-bg)}
+.detail{padding:14px}.detail h3{margin:0 0 6px;font-size:17px}.detail .detail-meta{margin:0 0 12px;color:var(--muted);font-size:12px}.detail dl{margin:0}.detail dt{font-size:11px;color:var(--muted);font-weight:760;margin-top:9px}.detail dd{margin:2px 0 0;font-size:12px}.detail .detail-proof{margin-top:10px;padding-top:8px;border-top:1px solid var(--line);color:var(--muted);font-size:11px}.criteria{padding:13px 15px}.criteria dl{display:grid;grid-template-columns:max-content 1fr;gap:7px 16px;margin:0;font-size:12px}.criteria dt{font-weight:740}.criteria dd{margin:0;color:var(--muted)}footer{color:var(--muted);font-size:11px;margin-top:16px}
+@media(max-width:960px){.top,.wrap{padding-left:18px;padding-right:18px}.workbench{grid-template-columns:1fr}.mast{align-items:flex-start}}
+@media(max-width:630px){.top{min-height:52px;gap:12px}.top nav{display:none}.mast{flex-direction:column;gap:12px}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.charts{grid-template-columns:1fr}.callout{display:block}.callout p{margin-top:3px}.canvas{height:178px}.section-title{flex-direction:column;gap:2px}.criteria dl{grid-template-columns:1fr;gap:2px}.criteria dd{margin-bottom:6px}}
+@media print{header nav,.filters{display:none}.wrap{padding:0}.chart,.panel,.detail{break-inside:avoid}.canvas{height:155px}}
+.canvas svg{display:block;width:100%;height:190px;fill:var(--muted);font-size:13px}
+.stat:nth-child(2){border-top-color:#bd7238}.stat:nth-child(3){border-top-color:#ae5460}.stat:nth-child(4){border-top-color:#61749c}
+</style>
+
+</head>
+<body>
+<header><div class="top"><div class="brand">구매·품질 운영</div><nav aria-label="섹션"><a href="#overview">운영 현황</a><a href="#orders">입고·조치 내역</a><a href="#criteria">집계 기준</a></nav></div></header>
+<main class="wrap">
+<section id="overview" aria-labelledby="heading">
+<div class="mast"><div><h1 id="heading">방산 협력사 입고·품질 운영 대시보드</h1><p>보관용기·포장자재 입고 실적과 검사 이상, 후속조치 현황</p></div>
+<dl class="cutoff"><div><dt>기준일</dt><dd>2026.11.19</dd></div><div><dt>입고 집계 기간</dt><dd id="period"></dd></div></dl></div>
+<div class="kpis" id="kpis" aria-label="전체 기준 핵심 지표"></div>
+<div class="callout"><b>우선 검토</b><p id="priority"></p></div>
+<div class="section-title"><h2>운영 지표</h2><span>전체 입고 주문 기준</span></div>
+
+<div class="charts">
+<article class="chart"><h3>협력사별 납기 준수와 지연</h3><p>협력사별 전체 주문을 준수와 지연으로 구분합니다.</p><div class="canvas"><div id="supplier-chart" role="img" aria-describedby="supplier-note" aria-label="협력사별 납기 누적 막대그래프"></div></div><p class="numerical" id="supplier-note"></p></article>
+<article class="chart"><h3>입고검사 결과 구성</h3><p>정상과 이상 유형을 주문 단위로 집계합니다.</p><div class="canvas"><div id="quality-chart" role="img" aria-describedby="quality-note" aria-label="입고검사 결과 도넛 그래프"></div></div><p class="numerical" id="quality-note"></p></article>
+<article class="chart"><h3>주문별 지연 일수</h3><p>실제 입고일에서 약정 납기일을 뺀 양수 구간입니다.</p><div class="canvas"><div id="delay-chart" role="img" aria-describedby="delay-note" aria-label="지연 주문별 일수 막대그래프"></div></div><p class="numerical" id="delay-note"></p></article>
+<article class="chart"><h3>입고일별 주문과 검사 이상</h3><p>동일한 입고 날짜에서 전체 주문과 검사 이상 건수를 비교합니다.</p><div class="canvas"><div id="receipt-chart" role="img" aria-describedby="receipt-note" aria-label="입고일별 주문과 검사 이상 혼합 그래프"></div></div><p class="numerical" id="receipt-note"></p></article>
+</div>
+</section>
+<section id="orders" aria-labelledby="orders-heading"><div class="section-title"><h2 id="orders-heading">입고·검사 이력과 조치 상세</h2><span>주문번호를 선택하면 증빙과 후속조치를 볼 수 있습니다.</span></div>
+<div class="workbench"><div class="panel">
+<div class="filters" aria-label="주문표 필터">
+<label>처리 상태<select id="state"><option value="">전체</option><option>진행</option><option>완료</option></select></label>
+<label>협력사<select id="supplier"><option value="">전체</option></select></label>
+<label>예외 유형<select id="exception"><option value="">전체</option><option value="late">납기 지연</option><option value="issue">검사 이상</option><option value="both">지연 및 검사 이상</option></select></label>
+<label>주문번호<input type="search" id="search" placeholder="예: R02" autocomplete="off"></label>
+<button id="reset" type="button">초기화</button><span id="count" class="result" aria-live="polite"></span></div>
+<div class="table-wrap" tabindex="0" aria-label="주문 이력표"><table>
+<thead><tr><th scope="col">주문번호</th><th scope="col">협력사</th><th scope="col">약정 납기</th><th scope="col">실제 입고</th><th scope="col">지연</th><th scope="col">검사 결과</th><th scope="col">처리 상태</th></tr></thead>
+<tbody id="rows"></tbody></table></div></div>
+<aside class="detail" id="detail" aria-label="선택 주문 상세" aria-live="polite"></aside></div></section>
+<section id="criteria" aria-labelledby="criteria-heading"><div class="section-title"><h2 id="criteria-heading">집계 기준과 자료 범위</h2></div>
+<div class="panel criteria"><dl>
+<dt>납기</dt><dd>실제 입고일이 약정 납기일보다 늦으면 지연입니다. 지연 평균의 분모는 지연 주문 수입니다.</dd>
+<dt>검사</dt><dd>검사 이상률은 검사 이상 주문 수를 전체 입고 주문 수로 나눠 산출합니다.</dd>
+<dt>중복</dt><dd>지연과 검사 이상이 같은 주문에서 발생할 수 있습니다. 예외 주문 수는 주문번호를 기준으로 중복을 제거합니다.</dd>
+<dt>처리 상태</dt><dd>원본의 ‘진행’, ‘완료’를 표시합니다. 조치안과 종결 조건은 보고서의 제안입니다.</dd>
+<dt>필터 범위</dt><dd>필터는 주문표와 상세에 적용됩니다. 상단 지표와 차트의 기준은 전체 주문입니다.</dd>
+</dl></div>
+</section>
+<footer>근거 자료　01_supplier_orders.csv · 구매품질-2026-1119-01</footer>
+</main>
+<script type="application/json" id="source-data">[["R01","A","2026-11-14","2026-11-14","정상","완료"],["R02","A","2026-11-15","2026-11-17","외관 불량","진행"],["R03","B","2026-11-16","2026-11-16","규격 불일치","진행"],["R04","C","2026-11-16","2026-11-18","정상","완료"],["R05","B","2026-11-17","2026-11-17","정상","완료"],["R06","D","2026-11-17","2026-11-19","정상","진행"],["R07","C","2026-11-18","2026-11-18","포장 손상","진행"],["R08","D","2026-11-19","2026-11-19","정상","완료"]]</script>
+<script>
+'use strict';
+const $ = (id) => document.getElementById(id);
+const raw = JSON.parse($('source-data').textContent);
+const day = 86400000;
+const orders = raw.map(([id, supplier, due, received, quality, status]) => ({
+  id, supplier, due, received, quality, status,
+  daysLate: Math.max(0, (Date.parse(received) - Date.parse(due)) / day),
+  issue: quality !== '정상',
+}));
+const lookup = Object.fromEntries(orders.map(order => [order.id, order]));
+const suppliers = [...new Set(orders.map(order => order.supplier))].sort();
+const receivedDates = orders.map(order => order.received).sort();
+const start = Date.parse(receivedDates[0]);
+const end = Date.parse(receivedDates.at(-1));
+const dates = Array.from({length: (end - start) / day + 1}, (_, index) =>
+  new Date(start + index * day).toISOString().slice(0, 10));
+const late = orders.filter(order => order.daysLate > 0);
+const issues = orders.filter(order => order.issue);
+const open = orders.filter(order => order.status === '진행');
+const exceptions = orders.filter(order => order.daysLate || order.issue);
+const overlap = late.filter(order => order.issue);
+const lead = overlap[0] ?? exceptions[0];
+const meanDelay = late.reduce((sum, order) => sum + order.daysLate, 0) / late.length;
+const pct = count => (100 * count / orders.length).toFixed(1) + '%';
+const mmdd = date => date.slice(5).replace('-', '.');
+const fmt = date => date.replaceAll('-', '.');
+const bySupplier = suppliers.map(supplier => orders.filter(order => order.supplier === supplier));
+const qualityLabels = ['정상', ...new Set(issues.map(order => order.quality))];
+const qualityCounts = qualityLabels.map(label => orders.filter(order => order.quality === label).length);
+const byDate = dates.map(date => orders.filter(order => order.received === date));
+const followup = {
+  R02: ['품질·구매',
+    'CAR-R02 발행 승인 후 품질·구매 담당자와 회신 기한을 확정하고 협력사 A에 요청서를 발행합니다. 검사 사진·성적서를 확보하고 불량 범위와 수량을 확인합니다. 원인·시정조치·재발방지 대책 회신을 요청하고 납기 지연 경위와 후속 일정 영향을 확인합니다.',
+    '증빙과 불량 범위·수량을 대조하고 조치 효과와 후속 일정 영향을 확인한 뒤 품질·구매 검토 결과와 종결 근거를 기록합니다. 미충족 조건이 있으면 진행 상태와 보류 사유를 기록합니다.',
+    'IQC-R02 기준 검사 사진과 검사성적서는 각각 첨부 없음. 불량 범위·수량과 발생 원인은 미확인.'],
+  R03: ['구매·품질', '발주 규격과 실물·검사 기록을 대조합니다.', '규격 차이와 영향 범위를 특정하고 처분 또는 재검 결과를 기록합니다.'],
+  R06: ['구매', '지연 경위와 후속 조달 일정 영향을 확인합니다.', '지연 사유와 일정 영향 및 필요한 후속 조치를 기록합니다.'],
+  R07: ['품질·물류', '포장 손상 범위와 내용물 영향을 확인합니다.', '확인 결과와 처분 판단을 기록하고 필요한 조치의 완료를 확인합니다.'],
+};
+const text = (id, value) => { $(id).textContent = value; };
+text('period', fmt(dates[0]) + '–' + mmdd(dates.at(-1)));
+text('priority', (lead ? lead.id + ' 주문은 ' + lead.daysLate + '일 지연, 검사 결과는 ‘' + lead.quality + '’입니다. ' : '') +
+  '예외 주문은 중복을 제거하면 ' + exceptions.length + '건이며, 처리 진행은 ' + open.length + '건입니다.');
+const kpis = [
+  ['전체 입고 주문', orders.length + '건', '협력사 ' + suppliers.length + '곳'],
+  ['납기 준수율', pct(orders.length - late.length), '준수 ' + (orders.length - late.length) + '건 · 지연 ' + late.length + '건'],
+  ['검사 이상률', pct(issues.length), '이상 ' + issues.length + '건 / 전체 ' + orders.length + '건'],
+  ['진행 건수', open.length + '건', pct(open.length) + ' · 완료 ' + (orders.length - open.length) + '건'],
+];
+$('kpis').innerHTML = kpis.map(([label,value,note]) => '<article class="stat"><h2>'+label+'</h2><strong class="metric">'+value+'</strong><small>'+note+'</small></article>').join('');
+text('supplier-note', suppliers.map((s,i) => s + ' ' + bySupplier[i].filter(o => !o.daysLate).length + '/' + bySupplier[i].length + '건 준수').join(' · '));
+text('quality-note', qualityLabels.map((q,i) => q + ' ' + qualityCounts[i] + '건').join(' · '));
+text('delay-note', late.map(o => o.id + ' ' + o.daysLate + '일').join(' · ') + ' / 지연 주문 평균 ' + meanDelay.toFixed(1) + '일');
+const peak = Math.max(...byDate.map(group => group.length));
+text('receipt-note', '입고 ' + orders.length + '건 / ' + dates.filter((_,i) => byDate[i].length === peak).map(mmdd).join('·') + '에 날짜별 최다 ' + peak + '건');
+for (const supplier of suppliers) $('supplier').add(new Option('협력사 ' + supplier, supplier));
+
+function getVisibleOrders() {
+  const state = $('state').value;
+  const supplier = $('supplier').value;
+  const kind = $('exception').value;
+  const query = $('search').value.trim().toUpperCase();
+  return orders.filter(order => {
+    const {daysLate, issue} = order;
+    const matchesKind = !kind || (kind === 'late' && daysLate > 0) ||
+      (kind === 'issue' && issue) || (kind === 'both' && daysLate > 0 && issue);
+    return matchesKind && (!state || order.status === state) &&
+      (!supplier || order.supplier === supplier) && order.id.includes(query);
+  });
+}
+let current = lead?.id ?? orders[0]?.id ?? '';
+function renderDetail(order) {
+  if (!order) {
+    $('detail').innerHTML = '<h3>주문 상세</h3><p class="detail-meta">조건에 맞는 주문이 없습니다.</p>';
+    return;
+  }
+  const plan = followup[order.id];
+  const facts = '약정 ' + fmt(order.due) + ' / 입고 ' + fmt(order.received) + ' / 지연 ' + order.daysLate + '일 / 검사 ' + order.quality;
+  const evidence = plan?.[3] || (order.id === 'R04' ? '처리 완료' : '협력사 주문 현황');
+  const pairs = [['납기',facts],['검사 결과',order.quality],['증빙 상태',evidence]];
+  if (plan) pairs.push(['검토 부서 제안',plan[0]],['후속조치',plan[1]],['종결 조건',plan[2]]);
+  $('detail').innerHTML = '<h3>' + order.id + ' 주문 상세</h3><p class="detail-meta">협력사 ' + order.supplier + ' · 처리 ' + order.status +
+    '</p><dl>' + pairs.map(([label,value]) => '<dt>'+label+'</dt><dd>'+value+'</dd>').join('') + '</dl>' +
+    (plan ? '<p class="detail-proof">출처 · 구매품질-2026-1119-01</p>' : '');
+}
+function renderRows() {
+  const shown = getVisibleOrders();
+  if (!shown.some(order => order.id === current)) current = shown[0]?.id || '';
+  text('count', shown.length + ' / ' + orders.length + '건');
+  $('rows').innerHTML = shown.map(order => {
+    const {id,supplier,due,received,daysLate,issue,quality,status} = order;
+    return '<tr data-current="'+(id===current)+'"><th scope="row"><button type="button" class="order-button" data-order="'+id+'" aria-pressed="'+(id===current)+'">'+id+'</button></th>'+
+      '<td>'+supplier+'</td><td>'+fmt(due)+'</td><td>'+fmt(received)+'</td><td><span class="pill '+(daysLate?'late':'')+'">'+daysLate+'일</span></td>'+
+      '<td><span class="pill '+(issue?'issue':'')+'">'+quality+'</span></td><td><span class="pill '+(status==='진행'?'open':'closed')+'">'+status+'</span></td></tr>';
+  }).join('') || '<tr><td colspan="7">조건에 맞는 주문이 없습니다.</td></tr>';
+  renderDetail(lookup[current]);
+}
+for (const id of ['state','supplier','exception']) $(id).addEventListener('change',renderRows);
+$('search').addEventListener('input',renderRows);
+$('reset').addEventListener('click',() => {
+  for (const id of ['state','supplier','exception','search']) $(id).value = '';
+  current = lead?.id ?? orders[0]?.id ?? '';
+  renderRows();
+});
+$('rows').addEventListener('click',event => {
+  const button = event.target.closest('button[data-order]');
+  if (!button) return;
+  current = button.dataset.order;
+  for (const existing of $('rows').querySelectorAll('button[data-order]')) {
+    const selected = existing === button;
+    existing.setAttribute('aria-pressed',String(selected));
+    existing.closest('tr').dataset.current = String(selected);
+  }
+  renderDetail(lookup[current]);
+});
+renderRows();
+
+const blue = '#237797', orange = '#c46c2d', red = '#a32e43';
+function draw(id, marks) {
+  $(id).innerHTML = '<svg viewBox="0 0 480 190" aria-hidden="true">' + marks + '</svg>';
+}
+function label(text,x,y) {
+  return '<text x="'+x+'" y="'+y+'" text-anchor="middle">'+text+'</text>';
+}
+function rect(x,y,w,h,color) {
+  return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="'+color+'" rx="2"/>';
+}
+function plot(id, labels, totals, {stack, line, color = blue, unit = '건', legend = []} = {}) {
+  const maximum = Math.max(2,...totals);
+  const y = value => 132 - value * 108 / maximum;
+  const step = 420 / labels.length;
+  const x = i => 42 + (i+.5)*step;
+  const width = Math.min(42,step*.55);
+  let marks = label(unit,18,15);
+  for (let v=0; v<=maximum; v++) {
+    marks += '<path d="M42 '+y(v)+'H462" stroke="#dce4ed"/>' + label(v,28,y(v)+4);
+  }
+  totals.forEach((total,i) => {
+    const base = stack ? total-stack[i] : total;
+    marks += rect(x(i)-width/2,y(base),width,132-y(base),color);
+    if (stack) marks += rect(x(i)-width/2,y(total),width,y(base)-y(total),orange);
+    marks += label(labels[i],x(i),153);
+  });
+  if (line) {
+    marks += '<polyline points="'+line.map((v,i)=>x(i)+','+y(v)).join(' ')+'" fill="none" stroke="'+red+'" stroke-width="2.5"/>';
+    marks += line.map((v,i)=>'<circle cx="'+x(i)+'" cy="'+y(v)+'" r="4" fill="'+red+'"/>').join('');
+  }
+  legend.forEach(([name,fill],i)=>{
+    marks += rect(143+i*108,169,11,10,fill)+label(name,184+i*108,179);
+  });
+  draw(id,marks);
+}
+plot('supplier-chart',suppliers.map(s=>'협력사 '+s),bySupplier.map(g=>g.length),{
+  stack:bySupplier.map(g=>g.filter(o=>o.daysLate>0).length),legend:[['준수',blue],['지연',orange]]
+});
+plot('delay-chart',late.map(o=>o.id),late.map(o=>o.daysLate),{color:orange,unit:'일'});
+plot('receipt-chart',dates.map(mmdd),byDate.map(g=>g.length),{
+  line:byDate.map(g=>g.filter(o=>o.issue).length),legend:[['입고 주문',blue],['검사 이상',red]]
+});
+const colors = [blue,red,'#c74750','#df6b6b'];
+let offset = 0;
+const arcs = qualityCounts.map((count,i)=>{
+  const size = 100 * count / orders.length;
+  const arc = '<circle cx="147" cy="94" r="59" pathLength="100" fill="none" stroke="'+colors[i]+
+    '" stroke-width="25" stroke-dasharray="'+(size-.65)+' '+(100-size+.65)+'" stroke-dashoffset="'+(-offset)+
+    '" transform="rotate(-90 147 94)"/>';
+  offset += size;
+  return arc;
+}).join('');
+draw('quality-chart',arcs+label(orders.length+'건',147,99)+qualityLabels.map((name,i)=>
+  rect(264,50+i*26,12,10,colors[i])+label(name+' '+qualityCounts[i]+'건',335,60+i*26)).join(''));
+</script>
+</body>
+</html>
+
